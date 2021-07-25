@@ -1,0 +1,52 @@
+@media (prefers-reduced-motion: no-preference) {
+    .Röhre{
+        animation: Röhre 1s ease-out forwards;
+        animation-delay: 1s;
+    }
+    .Vogel{
+        animation: Vogel-in 1s ease-out forwards;
+        animation-delay: 1s;
+    }
+}
+
+.Vogel{
+    width: 5%;
+    position: fixed;
+    top: 10%;
+    left: 20%;
+}
+
+.Röhre{
+    width: 50%;
+    position: fixed;
+    top: 100%;
+    left: 10%;
+    transform: scaleX(-1);
+}
+
+@keyframes Röhre {
+    from{
+        top: 100%;
+    }
+    to{
+        top: 80%;
+    }
+}
+
+@keyframes Vogel-in {
+    from{
+        left: -20%;
+    }
+    to{
+        left: 10%;
+    }
+}
+
+@keyframes Vogel-sprung {
+    from{
+        transform: rotate(-45deg);
+    }
+    to{
+        transform: rotate(45deg);
+    }
+}
