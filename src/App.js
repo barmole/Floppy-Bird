@@ -7,36 +7,41 @@ import {useEffect, useState} from "react";
 const App = () => {
     const FPS = 60;
     const [spielStaus, setSpielStatus] = useState({
-        status: "running",
-        score: 0
+        status: "idle",
+        score: 0,
+        springen: false
     });
 
     const vogelDaten = {
         posX: 11,
         posY: 70,
-        velocity: -2.5
+        velocity: -4.1
     }
 
     useEffect(() => {
         let interval = null;
 
         interval = setInterval(() => {
-            tickGame();
+            tickGame(spielStaus);
         }, 1000 / FPS);
 
         return () => clearInterval(interval);
     }, [])
 
-    const tickGame = () => {
+    const tickGame = spielstatus => {
         setSpielStatus({score: spielStaus.score + 0.01})
         vogelDaten.velocity += 0.1;
         vogelDaten.posY += vogelDaten.velocity;
 
-        if (spielStaus.status == "idle") {
+        if (spielStaus.status === "idle") {
             if (vogelDaten.posY > 65) {
                 vogelDaten.velocity = -2
             }
         } else {
+            if (spielStaus.springen || vogelDaten.posY > 65) {
+                vogelDaten.velocity = -2
+            }
+
             for (let i = 0; i < röhren.length; i++) {
                 röhrenDaten[i].posX -= 0.2;
                 if (röhrenDaten[i].posX < -100) {
@@ -52,21 +57,30 @@ const App = () => {
     const röhrenDaten = []
     for (let i = 0; i < 8; i++) {
         röhrenDaten[i] = {
-            posX: 25 * (i + 2),
+            posX: 25 * (i + 1),
             posY: Math.floor(Math.random() * 50) + 50
         }
         röhren[i] = <Röhre data={röhrenDaten[i]}/>;
     }
 
 
+    const sprungHandler = () => {
+        setSpielStatus({springen: true});
+        console.log(spielStaus.springen);
+    }
+
+    function startHandler() {
+        setSpielStatus({status: "running"})
+    }
+
     return (
-        <div className="App">
+        <div className="App" onClick={sprungHandler}>
             <div className="App-header">
                 {röhren}
                 <Vogel data={vogelDaten}/>
                 <div className="Titel">
                     <h1 key="App-text" className="App-text">Floppy Birds</h1>
-                    <a href="/" key="App-start" className="App-start">Start Game</a>
+                    <p onClick={startHandler} key="App-start" className="App-start">Start Game</p>
                 </div>
             </div>
         </div>

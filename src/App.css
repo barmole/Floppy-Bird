@@ -35,19 +35,22 @@
 
 .App-text{
   transform: translate(00px,-1000px);
-  background-color: #282c34;
-  border-radius: 5px;
+  text-shadow: -1px -1px 0 #282c34, 1px -1px 0 #282c34, -1px 1px 0 #282c34, 1px 1px 0 #282c34;
+  /*background-color: #282c34;
+  border-radius: 5px;*/
 }
 
 .App-start {
   color: #94e870;
   font-size: calc(10px + 2vmin);
+  text-shadow: -1px -1px 0 #282c34, 1px -1px 0 #282c34, -1px 1px 0 #282c34, 1px 1px 0 #282c34;
   size: auto;
   width: 30vmin;
   height: 5vmin;
   opacity: 0;
-  background-color: #282c34;
-  border-radius: 5px;
+  cursor: pointer;
+  /*background-color: #282c34;
+  border-radius: 5px;*/
 }
 
 
