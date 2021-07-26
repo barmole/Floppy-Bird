@@ -12,7 +12,7 @@ const App = () => {
     });
 
     const vogelDaten = {
-        posX: 10,
+        posX: 11,
         posY: 70,
         velocity: -2.5
     }
@@ -28,19 +28,31 @@ const App = () => {
     }, [])
 
     const tickGame = () => {
-        setSpielStatus({score: spielStaus.score+0.01})
-        vogelDaten.velocity += 0.08;
+        setSpielStatus({score: spielStaus.score + 0.01})
+        vogelDaten.velocity += 0.1;
         vogelDaten.posY += vogelDaten.velocity;
 
-        if (vogelDaten.posY > 70) {
+        if (vogelDaten.posY > 65) {
             vogelDaten.velocity = -2
         }
     }
 
+    //Röhren generieren
+    const röhren = []
+    const röhrenDaten =[]
+    for (let i = 0; i < 20; i++) {
+        röhrenDaten[i] = {
+            posX: 25*(i+1),
+            posY: Math.floor(Math.random()*50)+50
+        }
+        röhren[i] = <Röhre data={röhrenDaten[i]}/>;
+    }
+
+
     return (
         <div className="App">
             <div className="App-header">
-                <Röhre flipped={false}/>
+                {röhren}
                 <Vogel data={vogelDaten}/>
                 <h1 key="App-text" className="App-text">Floppy Birds</h1>
                 <a href="/" key="App-start" className="App-start">Start Game</a>
