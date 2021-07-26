@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 const App = () => {
     const FPS = 60;
     const [spielStaus, setSpielStatus] = useState({
-        status: "idle",
+        status: "running",
         score: 0
     });
 
@@ -32,18 +32,28 @@ const App = () => {
         vogelDaten.velocity += 0.1;
         vogelDaten.posY += vogelDaten.velocity;
 
-        if (vogelDaten.posY > 65) {
-            vogelDaten.velocity = -2
+        if (spielStaus.status == "idle") {
+            if (vogelDaten.posY > 65) {
+                vogelDaten.velocity = -2
+            }
+        } else {
+            for (let i = 0; i < röhren.length; i++) {
+                röhrenDaten[i].posX -= 0.2;
+                if (röhrenDaten[i].posX < -100) {
+                    röhrenDaten[i].posX = 100;
+                    röhrenDaten[i].posY = Math.floor(Math.random() * 50) + 50
+                }
+            }
         }
     }
 
     //Röhren generieren
     const röhren = []
-    const röhrenDaten =[]
-    for (let i = 0; i < 20; i++) {
+    const röhrenDaten = []
+    for (let i = 0; i < 8; i++) {
         röhrenDaten[i] = {
-            posX: 25*(i+1),
-            posY: Math.floor(Math.random()*50)+50
+            posX: 25 * (i + 2),
+            posY: Math.floor(Math.random() * 50) + 50
         }
         röhren[i] = <Röhre data={röhrenDaten[i]}/>;
     }
@@ -54,8 +64,10 @@ const App = () => {
             <div className="App-header">
                 {röhren}
                 <Vogel data={vogelDaten}/>
-                <h1 key="App-text" className="App-text">Floppy Birds</h1>
-                <a href="/" key="App-start" className="App-start">Start Game</a>
+                <div className="Titel">
+                    <h1 key="App-text" className="App-text">Floppy Birds</h1>
+                    <a href="/" key="App-start" className="App-start">Start Game</a>
+                </div>
             </div>
         </div>
     );

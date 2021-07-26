@@ -29,8 +29,8 @@ const Röhre = props => {
     style.top = data.posY + "%"
 
     let flippedStyle = {
-        "-webkit-transform": "scaleY(-1)",
-        "transform": "scaleY(-1)"
+        "-webkit-transform": "scaleY(-1) scaleX(-1)",
+        "transform": "scaleY(-1) scaleX(-1)",
     }
     flippedStyle.left = data.posX + "%";
     flippedStyle.top = data.posY - 120 + "%";

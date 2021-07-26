@@ -35,6 +35,8 @@
 
 .App-text{
   transform: translate(00px,-1000px);
+  background-color: #282c34;
+  border-radius: 5px;
 }
 
 .App-start {
@@ -44,6 +46,8 @@
   width: 30vmin;
   height: 5vmin;
   opacity: 0;
+  background-color: #282c34;
+  border-radius: 5px;
 }
 
 
