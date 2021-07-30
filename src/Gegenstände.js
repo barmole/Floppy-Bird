@@ -6,7 +6,6 @@ import {useState} from "react";
 
 const Vogel = props => {
     const [data, setData] = useState(props.data)
-    console.log(data)
 
     let styles = {
         left: data.posX + "%",

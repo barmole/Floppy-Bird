@@ -2,89 +2,109 @@ import "./App.css"
 import "./logo.svg"
 
 import Vogel, {Röhre} from "./Gegenstände";
-import {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 
-const App = () => {
-    const FPS = 60;
-    const [spielStaus, setSpielStatus] = useState({
-        status: "idle",
-        score: 0,
-        springen: false
-    });
+const FPS = 60;
+var state;
 
-    const vogelDaten = {
-        posX: 11,
-        posY: 70,
-        velocity: -4.1
+var vogelDaten;
+
+//Röhren generieren
+const röhren = []
+const röhrenDaten = []
+
+for (let i = 0; i < 8; i++) {
+    röhrenDaten
+        [i] = {
+        posX: 25 * (i + 1),
+        posY: Math.floor(Math.random() * 50) + 50
     }
+    röhren
+        [i] = <Röhre data={röhrenDaten[i]}/>;
+}
 
-    useEffect(() => {
-        let interval = null;
 
-        interval = setInterval(() => {
-            tickGame(spielStaus);
-        }, 1000 / FPS);
-
-        return () => clearInterval(interval);
-    }, [])
-
-    const tickGame = spielstatus => {
-        setSpielStatus({score: spielStaus.score + 0.01})
-        vogelDaten.velocity += 0.1;
-        vogelDaten.posY += vogelDaten.velocity;
-
-        if (spielStaus.status === "idle") {
-            if (vogelDaten.posY > 65) {
-                vogelDaten.velocity = -2
-            }
-        } else {
-            if (spielStaus.springen || vogelDaten.posY > 65) {
-                vogelDaten.velocity = -2
-            }
-
-            for (let i = 0; i < röhren.length; i++) {
-                röhrenDaten[i].posX -= 0.2;
-                if (röhrenDaten[i].posX < -100) {
-                    röhrenDaten[i].posX = 100;
-                    röhrenDaten[i].posY = Math.floor(Math.random() * 50) + 50
-                }
-            }
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            status: "idle",
+            score: 0,
+            springen: false
         }
-    }
+        state = this.state
 
-    //Röhren generieren
-    const röhren = []
-    const röhrenDaten = []
-    for (let i = 0; i < 8; i++) {
-        röhrenDaten[i] = {
-            posX: 25 * (i + 1),
-            posY: Math.floor(Math.random() * 50) + 50
+        vogelDaten = {
+            posX: 11,
+            posY: 10,
+            velocity: -4.1
         }
-        röhren[i] = <Röhre data={röhrenDaten[i]}/>;
+
+        looper()
     }
 
 
-    const sprungHandler = () => {
-        setSpielStatus({springen: true});
-        console.log(spielStaus.springen);
-    }
-
-    function startHandler() {
-        setSpielStatus({status: "running"})
-    }
-
-    return (
-        <div className="App" onClick={sprungHandler}>
-            <div className="App-header">
-                {röhren}
-                <Vogel data={vogelDaten}/>
-                <div className="Titel">
-                    <h1 key="App-text" className="App-text">Floppy Birds</h1>
-                    <p onClick={startHandler} key="App-start" className="App-start">Start Game</p>
+    render() {
+        return (
+            <div className="App" onClick={sprungHandler}>
+                <div className="App-header">
+                    {röhren}
+                    <Vogel data={vogelDaten}/>
+                    <div className="Titel">
+                        <h1 key="App-text" className="App-text">Floppy Birds</h1>
+                        <p onClick={startHandler} key="App-start" className="App-start">Start Game</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+}
+
+let letzterRun = 0;
+let delta, jetzt;
+
+const looper = () => {
+    jetzt = Date.now();
+    delta = jetzt - letzterRun;
+    letzterRun = jetzt;
+
+    setInterval(tickGame, 1000 / FPS);
+
+}
+
+const tickGame = () => {
+    console.log(vogelDaten);
+    state.score += 0.01
+    vogelDaten.velocity += 0.1;
+    vogelDaten.posY += vogelDaten.velocity;
+
+    if (state.status === "idle") {
+        if (vogelDaten.posY >= röhrenDaten[0].posY) {
+            console.log(röhrenDaten[1].posY);
+            vogelDaten.velocity = -2
+        }
+    } else {
+        if (state.springen || vogelDaten.posY > 65) {
+            vogelDaten.velocity = -2
+        }
+
+        for (let i = 0; i < röhren.length; i++) {
+            röhrenDaten[i].posX -= 0.2;
+            if (röhrenDaten[i].posX < -100) {
+                röhrenDaten[i].posX = 100;
+                röhrenDaten[i].posY = Math.floor(Math.random() * 50) + 50
+            }
+        }
+    }
+}
+
+const sprungHandler = () => {
+    state.springen = true;
+    console.log(state.springen);
+}
+
+const startHandler = () => {
+    state.status = "running"
 }
 
 
