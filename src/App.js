@@ -1,10 +1,12 @@
 import "./App.css"
 import "./logo.svg"
 
-import Vogel, {Röhre} from "./Gegenstände";
+import {Röhre} from "./Gegenstände";
+import Vogel from "./Vogel";
 import React, {useEffect} from "react";
 
 const FPS = 60;
+var app;
 var state;
 
 var vogelDaten;
@@ -33,10 +35,11 @@ class App extends React.Component {
             springen: false
         }
         state = this.state
+        app = this;
 
         vogelDaten = {
             posX: 11,
-            posY: 10,
+            posY: 70,
             velocity: -4.1
         }
 
@@ -73,14 +76,13 @@ const looper = () => {
 }
 
 const tickGame = () => {
-    console.log(vogelDaten);
     state.score += 0.01
     vogelDaten.velocity += 0.1;
     vogelDaten.posY += vogelDaten.velocity;
 
     if (state.status === "idle") {
         if (vogelDaten.posY >= röhrenDaten[0].posY) {
-            console.log(röhrenDaten[1].posY);
+            
             vogelDaten.velocity = -2
         }
     } else {
@@ -96,6 +98,8 @@ const tickGame = () => {
             }
         }
     }
+
+    app.render();
 }
 
 const sprungHandler = () => {

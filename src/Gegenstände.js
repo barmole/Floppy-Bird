@@ -12,7 +12,10 @@ const Vogel = props => {
         top: data.posY + "%",
     }
 
-    const vogel = <img style={styles} className="Vogel" key="Vogel" id={"Vogel"} src={bird} alt={'Floppy Disk'}/>
+    const vogel = <div>
+        <img style={styles} className="Vogel" key="Vogel" id={"Vogel"} src={bird} alt={'Floppy Disk'}/>
+        <p>{data.posY}</p>
+    </div>
 
     return (
         vogel
